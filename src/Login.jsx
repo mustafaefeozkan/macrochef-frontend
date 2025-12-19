@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './App.css'; // Yeni CSS'i kullandığından emin olalım
+import './App.css';
+
+// API URL'ini dinamik olarak tanımlıyoruz
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -12,15 +15,15 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
-        e.preventDefault(); // Sayfanın yenilenmesini engelle
+        e.preventDefault();
         setError('');
         setLoading(true);
 
-        console.log("Login işlemi başlatıldı..."); // F12 Konsolunda bunu görmelisin
+        console.log("Login işlemi başlatıldı...");
 
         try {
-            // Backend adresinin doğru olduğundan emin ol (http://localhost:8080/auth/login)
-            const response = await fetch('http://localhost:8080/auth/login', {
+            // URL kısmını API_BASE_URL kullanacak şekilde güncelledik
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,16 +31,14 @@ const Login = () => {
                 body: JSON.stringify({ email, password }),
             });
 
-            console.log("Sunucu cevabı:", response.status); // Konsola durum kodunu yaz
+            console.log("Sunucu cevabı:", response.status);
 
             if (response.ok) {
                 const data = await response.json();
-                // Token'ı kaydet
                 localStorage.setItem('token', data.token);
                 console.log("Giriş başarılı, Dashboard'a yönlendiriliyor...");
-                navigate('/'); // Dashboard'a at
+                navigate('/');
             } else {
-                // Hata durumunda
                 setError('Login failed! Check your email or password.');
             }
         } catch (err) {
@@ -50,7 +51,6 @@ const Login = () => {
 
     return (
         <div className="split-screen">
-            {/* SOL TARAF: FORM */}
             <div className="left-pane">
                 <div className="brand-logo">
                     <span className="macro">Macro</span><span className="chef">Chef</span>
@@ -93,7 +93,6 @@ const Login = () => {
                 </div>
             </div>
 
-            {/* SAĞ TARAF: GÖRSEL */}
             <div className="right-pane" style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2070&auto=format&fit=crop')"
             }}></div>

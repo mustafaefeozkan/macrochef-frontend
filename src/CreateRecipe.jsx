@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 
+// API URL'ini dinamik olarak tanımlıyoruz (Vercel değişkeni varsa onu, yoksa localhost'u kullanır)
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const CreateRecipe = () => {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
@@ -22,8 +25,8 @@ const CreateRecipe = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                // İstek atarken header eklemek bazen CORS sorunlarını çözer
-                const res = await fetch('http://localhost:8080/api/categories', {
+                // LOCALHOST yerine API_BASE_URL kullanıyoruz
+                const res = await fetch(`${API_BASE_URL}/api/categories`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -31,7 +34,7 @@ const CreateRecipe = () => {
                 });
 
                 if (res.ok) {
-                    const data = await res.json(); // AWAİT'i burada değişkene alıyoruz
+                    const data = await res.json();
                     console.log("Kategoriler yüklendi:", data);
                     setAllCategories(Array.isArray(data) ? data : []);
                 } else {
@@ -59,8 +62,6 @@ const CreateRecipe = () => {
     };
 
     const addCategory = (cat) => {
-        // Mevcut yapıda tarif tek kategori ID beklediği için istersen listeyi temizleyip ekle
-        // Ama çoklu seçime de izin verip backend'de sadece ilkini alıyoruz
         setSelectedCategories([...selectedCategories, cat]);
         setCatSearchTerm('');
         setCatSearchResults([]);
@@ -75,7 +76,8 @@ const CreateRecipe = () => {
         setSearchTerm(val);
         if (val.trim().length > 1) {
             try {
-                const res = await fetch(`http://localhost:8080/ingredients/search?name=${val}`, {
+                // LOCALHOST yerine API_BASE_URL kullanıyoruz
+                const res = await fetch(`${API_BASE_URL}/ingredients/search?name=${val}`, {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 });
                 if (res.ok) setSearchResults(await res.json());
@@ -106,9 +108,7 @@ const CreateRecipe = () => {
         const recipeData = {
             title,
             description,
-            // Backend instructions bekliyorsa description'ı oraya da setleyelim
             instructions: description,
-            // Backend'e sadece ilk seçilen kategorinin ID'sini gönderiyoruz
             categoryId: selectedCategories.length > 0 ? selectedCategories[0].id : null,
             ingredients: selectedIngredients.map(i => ({
                 ingredientId: i.id,
@@ -117,7 +117,8 @@ const CreateRecipe = () => {
         };
 
         try {
-            const res = await fetch('http://localhost:8080/api/recipes', {
+            // LOCALHOST yerine API_BASE_URL kullanıyoruz
+            const res = await fetch(`${API_BASE_URL}/api/recipes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -152,7 +153,6 @@ const CreateRecipe = () => {
                         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. High Protein Omelette" required />
                     </div>
 
-                    {/* KATEGORİ SEARCH VE BALONCUKLAR */}
                     <div className="form-group" style={{position: 'relative'}}>
                         <label>Category Tags</label>
                         <div style={{display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '8px'}}>

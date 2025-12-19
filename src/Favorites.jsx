@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css'; // Stil dosyanın aynı olduğunu varsayıyorum
 
+// API URL'ini dinamik olarak tanımlıyoruz
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const Favorites = () => {
     const [favorites, setFavorites] = useState([]);
     const navigate = useNavigate();
@@ -11,7 +14,8 @@ const Favorites = () => {
         const fetchFavorites = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch('http://localhost:8080/api/favorites', {
+                // Adresi dinamik hale getirdik
+                const res = await fetch(`${API_BASE_URL}/api/favorites`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
@@ -30,7 +34,8 @@ const Favorites = () => {
     const toggleFav = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8080/api/favorites/${id}`, {
+            // Adresi dinamik hale getirdik
+            const res = await fetch(`${API_BASE_URL}/api/favorites/${id}`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

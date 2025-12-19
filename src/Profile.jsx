@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const Profile = () => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState(null);
@@ -18,9 +21,10 @@ const Profile = () => {
                 if (!token) { navigate('/login'); return; }
                 const headers = { 'Authorization': `Bearer ${token}` };
 
+
                 const [pRes, rRes] = await Promise.all([
-                    fetch('http://localhost:8080/api/users/me', { headers }),
-                    fetch('http://localhost:8080/api/recipes/my-recipes', { headers })
+                    fetch(`${API_BASE_URL}/api/users/me`, { headers }),
+                    fetch(`${API_BASE_URL}/api/recipes/my-recipes`, { headers })
                 ]);
 
                 if (pRes.ok && rRes.ok) {
@@ -54,7 +58,7 @@ const Profile = () => {
             </nav>
 
             <main className="profile-main-content">
-                {/* ÖNE ÇIKAN PROFİL BÖLÜMÜ */}
+
                 <section className="profile-header-card">
                     <div className="profile-cover"></div>
                     <div className="profile-info-content">

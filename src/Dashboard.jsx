@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 
+// API URL'ini dinamik olarak tanımlıyoruz (Vercel değişkeni varsa onu, yoksa localhost'u kullanır)
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const Dashboard = () => {
     const navigate = useNavigate();
 
@@ -27,7 +30,8 @@ const Dashboard = () => {
                 const token = localStorage.getItem('token');
                 if (!token) { navigate('/login'); return; }
 
-                const response = await fetch('http://localhost:8080/api/recipes', {
+                // URL kısmını API_BASE_URL kullanacak şekilde güncelledik
+                const response = await fetch(`${API_BASE_URL}/api/recipes`, {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });

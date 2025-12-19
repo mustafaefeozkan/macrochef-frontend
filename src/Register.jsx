@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './App.css';
 
+// API URL'ini dinamik olarak tanımlıyoruz
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const Register = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -19,7 +22,8 @@ const Register = () => {
         e.preventDefault();
         setError('');
         try {
-            const response = await fetch('http://localhost:8080/auth/register', {
+            // fetch adresini API_BASE_URL kullanacak şekilde güncelledik
+            const response = await fetch(`${API_BASE_URL}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
@@ -39,11 +43,8 @@ const Register = () => {
 
     return (
         <div className="split-screen">
-
             <div className="left-pane">
                 <div className="form-container">
-
-                    {/* Basit Logo Metni */}
                     <div style={{ textAlign: 'center' }}>
                         <div className="brand-logo">
                             <span className="macro">Macro</span>
@@ -103,7 +104,6 @@ const Register = () => {
                     </div>
                 </div>
             </div>
-
 
             <div className="right-pane" style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=2070&auto=format&fit=crop')"
