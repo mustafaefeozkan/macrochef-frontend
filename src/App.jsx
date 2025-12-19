@@ -1,9 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+// Sayfalar
 import Login from './Login';
 import Register from './Register';
+import Dashboard from './Dashboard';
+import Profile from './Profile';
+import CreateRecipe from './CreateRecipe';
+import Favorites from './Favorites';
+
 import './App.css';
 
-
+// KORUMA KALKANI
 const ProtectedRoute = ({ children }) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -16,34 +23,36 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-
-
+                {/* --- HERKESE AÇIK --- */}
                 <Route path="/login" element={<Login />} />
-
-
                 <Route path="/register" element={<Register />} />
 
-
+                {/* --- KORUMALI SAYFALAR --- */}
                 <Route path="/" element={
                     <ProtectedRoute>
-                        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                            <h1>Welcome to MacroChef</h1>
-                            <p>You have successfully logged in.</p>
-                            <button
-                                onClick={() => {
-                                    localStorage.removeItem('token');
-                                    window.location.reload();
-                                }}
-                                style={{ marginTop: '20px', padding: '10px', cursor: 'pointer', background: 'red', color: 'white' }}
-                            >
-                                Logout
-                            </button>
-                        </div>
+                        <Dashboard />
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/profile" element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/create-recipe" element={
+                    <ProtectedRoute>
+                        <CreateRecipe />
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/favorites" element={
+                    <ProtectedRoute>
+                        <Favorites />
                     </ProtectedRoute>
                 } />
 
                 <Route path="*" element={<Navigate to="/login" />} />
-
             </Routes>
         </BrowserRouter>
     );

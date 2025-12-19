@@ -1,69 +1,70 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './App.css';
+import './App.css'; // Yeni CSS'i kullandığından emin olalım
 
 const Login = () => {
     const navigate = useNavigate();
 
-
+    // State'ler
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Sayfanın yenilenmesini engelle
         setError('');
-        try {
+        setLoading(true);
 
+        console.log("Login işlemi başlatıldı..."); // F12 Konsolunda bunu görmelisin
+
+        try {
+            // Backend adresinin doğru olduğundan emin ol (http://localhost:8080/auth/login)
             const response = await fetch('http://localhost:8080/auth/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({ email, password }),
             });
 
+            console.log("Sunucu cevabı:", response.status); // Konsola durum kodunu yaz
+
             if (response.ok) {
                 const data = await response.json();
-
+                // Token'ı kaydet
                 localStorage.setItem('token', data.token);
-                navigate('/');
+                console.log("Giriş başarılı, Dashboard'a yönlendiriliyor...");
+                navigate('/'); // Dashboard'a at
             } else {
-
-                setError('Invalid email or password.');
+                // Hata durumunda
+                setError('Login failed! Check your email or password.');
             }
-        } catch {
-            setError('Error connecting to server.');
+        } catch (err) {
+            console.error("Bağlantı Hatası:", err);
+            setError('Server connection failed. Is the backend running?');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="split-screen">
-
-
+            {/* SOL TARAF: FORM */}
             <div className="left-pane">
+                <div className="brand-logo">
+                    <span className="macro">Macro</span><span className="chef">Chef</span>
+                </div>
+
                 <div className="form-container">
-
-
-                    <div style={{ textAlign: 'center' }}>
-                        <div className="brand-logo">
-                            <span className="macro">Macro</span>
-                            <span className="chef">Chef</span>
-                        </div>
-                    </div>
-
-                    <h2>Welcome Back</h2>
-                    <p className="subtitle">Login to track your nutrition journey.</p>
-
-                    {error && <div style={{color: '#ef4444', marginBottom: '15px', textAlign:'center'}}>{error}</div>}
-
                     <form onSubmit={handleLogin}>
-                        {/* Username yok, sadece Email */}
                         <div className="form-group">
                             <label>Email</label>
                             <input
                                 type="email"
+                                placeholder="Enter your email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@macrochef.com"
                                 required
                             />
                         </div>
@@ -72,15 +73,17 @@ const Login = () => {
                             <label>Password</label>
                             <input
                                 type="password"
+                                placeholder="Enter your password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
                                 required
                             />
                         </div>
 
-                        <button type="submit" className="auth-button">
-                            Log In
+                        {error && <div style={{color: 'red', marginBottom: '10px', fontSize: '0.9rem'}}>{error}</div>}
+
+                        <button type="submit" className="auth-button" disabled={loading}>
+                            {loading ? 'Signing in...' : 'Log In'}
                         </button>
                     </form>
 
@@ -90,12 +93,10 @@ const Login = () => {
                 </div>
             </div>
 
-
+            {/* SAĞ TARAF: GÖRSEL */}
             <div className="right-pane" style={{
-
-                backgroundImage: "url('https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?q=80&w=1000&auto=format&fit=crop')"
-            }}>
-            </div>
+                backgroundImage: "url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2070&auto=format&fit=crop')"
+            }}></div>
         </div>
     );
 };
