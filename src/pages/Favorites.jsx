@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
 import '../styles/Dashboard.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const API_BASE_URL = "https://macrochef-backend.onrender.com";
 
 const Favorites = () => {
     const navigate = useNavigate();

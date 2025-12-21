@@ -4,21 +4,21 @@ import RecipeModal from '../components/RecipeModal'; // 👈 IMPORT ETTİK
 import '../styles/Navbar.css';
 import '../styles/Dashboard.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const API_BASE_URL = "https://macrochef-backend.onrender.com";
 
 const Dashboard = () => {
     const navigate = useNavigate();
 
-    // --- STATE'LER ---
+
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [favoriteIds, setFavoriteIds] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // ✨ YENİ: Seçili Tarif State'i (Modal İçin)
+
     const [selectedRecipe, setSelectedRecipe] = useState(null);
 
-    // Sidebar Kontrolleri
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isNotifOpen, setIsNotifOpen] = useState(false);
 
@@ -31,7 +31,7 @@ const Dashboard = () => {
         navigate('/login');
     };
 
-    // --- VERİ ÇEKME ---
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -71,7 +71,7 @@ const Dashboard = () => {
         fetchData();
     }, [navigate]);
 
-    // --- FAVORİ EKLE/ÇIKAR ---
+
     const toggleFavorite = async (recipeId) => {
         const isCurrentlyFav = favoriteIds.includes(recipeId);
         let newFavIds;
@@ -93,7 +93,7 @@ const Dashboard = () => {
         }
     };
 
-    // FİLTRELEME
+
     const filteredRecipes = recipes.filter(recipe =>
         recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -103,7 +103,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard-container">
 
-            {/* ✨ MODAL ENTEGRASYONU ✨ */}
+
             {selectedRecipe && (
                 <RecipeModal
                     recipe={selectedRecipe}
@@ -111,10 +111,10 @@ const Dashboard = () => {
                 />
             )}
 
-            {/* OVERLAY (Sidebar için) */}
+
             {(isSidebarOpen || isNotifOpen) && <div className="overlay" onClick={closeAll}></div>}
 
-            {/* SIDEBARLAR */}
+
             <div className={`sidebar-menu ${isSidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-header"><span>Menu</span><button className="close-btn" onClick={closeAll}>&times;</button></div>
                 <ul className="sidebar-links">
@@ -131,14 +131,14 @@ const Dashboard = () => {
                 <div className="notif-content"><div className="empty-notif"><span style={{fontSize: '2rem'}}>🎉</span><p>No new notifications</p></div></div>
             </div>
 
-            {/* NAVBAR */}
+
             <nav className="top-navbar">
                 <div className="nav-left"><button className="icon-btn" onClick={toggleSidebar}>☰</button></div>
                 <div className="nav-center"><div className="brand-logo-large"><span className="macro">Macro</span><span className="chef">Chef</span></div></div>
                 <div className="nav-right"><button className="icon-btn" onClick={toggleNotif}>🔔</button></div>
             </nav>
 
-            {/* ANA İÇERİK */}
+
             <div className="main-content-area">
                 <div className="search-section">
                     <div className="search-bar-wrapper">
@@ -159,7 +159,7 @@ const Dashboard = () => {
                             <div
                                 key={recipe.id}
                                 className="recipe-card"
-                                // ✨ KARTA TIKLAYINCA MODAL AÇILSIN
+
                                 onClick={() => setSelectedRecipe(recipe)}
                             >
                                 <div className="card-image" style={{
@@ -168,7 +168,7 @@ const Dashboard = () => {
                                     <button
                                         className={`fav-btn ${favoriteIds.includes(recipe.id) ? 'active' : ''}`}
                                         onClick={(e) => {
-                                            e.stopPropagation(); // Modal açılmasın, sadece favorilensin
+                                            e.stopPropagation();
                                             toggleFavorite(recipe.id);
                                         }}
                                         title="Favorite"

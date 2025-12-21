@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../styles/Auth.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const API_BASE_URL = "https://macrochef-backend.onrender.com";
 
 const Register = () => {
     const navigate = useNavigate();

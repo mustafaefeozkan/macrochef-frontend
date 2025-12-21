@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
 import '../styles/Profile.css';
-import '../styles/Dashboard.css'; // Kalp butonu stili buradan geliyor
+import '../styles/Dashboard.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const API_BASE_URL = "https://macrochef-backend.onrender.com";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -12,10 +12,10 @@ const Profile = () => {
     const [myRecipes, setMyRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // ✨ YENİ: Favori ID'lerini tutan state
+
     const [favoriteIds, setFavoriteIds] = useState([]);
 
-    // --- SIDEBAR STATE'LERİ ---
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isNotifOpen, setIsNotifOpen] = useState(false);
 

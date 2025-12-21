@@ -8,20 +8,20 @@ const RecipeModal = ({ recipe, onClose }) => {
 
         <div className="modal-overlay" onClick={onClose}>
 
-            {/* Modal İçeriği: İçeriğe tıklayınca kapanmasın (stopPropagation) */}
+
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
 
-                {/* Kapatma Butonu */}
+
                 <button className="close-modal-btn" onClick={onClose}>&times;</button>
 
-                {/* Büyük Resim */}
+
                 <div className="modal-image-header" style={{
                     backgroundImage: `url(${recipe.imageUrl && recipe.imageUrl !== 'none' ? recipe.imageUrl : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800'})`
                 }}></div>
 
                 <div className="modal-body">
 
-                    {/* Başlık ve Kategori */}
+
                     <div className="modal-title-row">
                         <h2>{recipe.title}</h2>
                         {recipe.category && (
@@ -31,7 +31,7 @@ const RecipeModal = ({ recipe, onClose }) => {
                         )}
                     </div>
 
-                    {/* Besin Değerleri (Macros) */}
+
                     <div className="nutrition-grid">
                         <div className="nutrition-item">
                             <span className="nutrition-value">🔥 {recipe.totalCalories ? recipe.totalCalories.toFixed(0) : 0}</span>
@@ -75,7 +75,7 @@ const RecipeModal = ({ recipe, onClose }) => {
                         </div>
                     )}
 
-                    {/* Tarif Adımları / Açıklama */}
+
                     <div>
                         <h3 className="modal-section-title">Instructions</h3>
                         <p className="description-text">
@@ -83,7 +83,7 @@ const RecipeModal = ({ recipe, onClose }) => {
                         </p>
                     </div>
 
-                    {/* Paylaşan Kişi Bilgisi */}
+
                     {recipe.user && (
                         <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid #eee', fontSize: '0.9rem', color: '#94a3b8' }}>
                             Recipe by <strong>@{recipe.user.username}</strong>

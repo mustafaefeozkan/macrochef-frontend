@@ -2,44 +2,44 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
 import '../styles/CreateRecipe.css';
-// Sidebar stilleri Navbar.css içinde olduğu için ekstra bir şeye gerek yok
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
+const API_BASE_URL = "https://macrochef-backend.onrender.com";
 
 const CreateRecipe = () => {
     const navigate = useNavigate();
 
-    // --- FORM STATE'LERİ ---
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    // Kategori State'leri
+
     const [allCategories, setAllCategories] = useState([]);
     const [catSearchTerm, setCatSearchTerm] = useState('');
     const [catSearchResults, setCatSearchResults] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
 
-    // Malzeme State'leri
+
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
-    // --- SIDEBAR STATE'LERİ (YENİ) ---
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isNotifOpen, setIsNotifOpen] = useState(false);
 
-    // Sidebar Aç/Kapa
+
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const toggleNotif = () => setIsNotifOpen(!isNotifOpen);
     const closeAll = () => { setIsSidebarOpen(false); setIsNotifOpen(false); };
 
-    // Çıkış Yap
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
     };
 
-    // --- VERİ ÇEKME (Kategoriler) ---
+
     useEffect(() => {
         window.scrollTo(0, 0); // Sayfa açılınca en üste git
         const fetchCategories = async () => {
@@ -56,7 +56,7 @@ const CreateRecipe = () => {
         fetchCategories();
     }, []);
 
-    // --- KATEGORİ FONKSİYONLARI ---
+
     const handleCategorySearch = (val) => {
         setCatSearchTerm(val);
         if (val.trim().length > 0) {
@@ -80,7 +80,7 @@ const CreateRecipe = () => {
         setSelectedCategories(selectedCategories.filter(c => c.id !== id));
     };
 
-    // --- MALZEME FONKSİYONLARI ---
+
     const handleSearch = async (val) => {
         setSearchTerm(val);
         if (val.trim().length < 2) {
@@ -124,13 +124,13 @@ const CreateRecipe = () => {
         setSelectedIngredients(updatedIngredients);
     };
 
-    // Toplam Kalori
+
     const totalCal = selectedIngredients.reduce((acc, curr) => {
         const calPer100 = curr.calories || curr.calories100g || 0;
         return acc + (calPer100 * (curr.amountInGrams || 0) / 100);
     }, 0);
 
-    // --- KAYDETME (SUBMIT) ---
+
     const handleSubmit = async () => {
         if (selectedIngredients.length === 0) {
             alert("Please add at least one ingredient!");
@@ -178,12 +178,12 @@ const CreateRecipe = () => {
     };
 
     return (
-        <div className="dashboard-container"> {/* Arka plan rengi için aynı class'ı kullandık */}
+        <div className="dashboard-container">
 
-            {/* --- OVERLAY --- */}
+
             {(isSidebarOpen || isNotifOpen) && <div className="overlay" onClick={closeAll}></div>}
 
-            {/* --- SOL SIDEBAR (MENÜ) --- */}
+
             <div className={`sidebar-menu ${isSidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
                     <span>Menu</span>
@@ -198,7 +198,7 @@ const CreateRecipe = () => {
                 </ul>
             </div>
 
-            {/* --- SAĞ SIDEBAR (BİLDİRİMLER) --- */}
+
             <div className={`notification-sidebar ${isNotifOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
                     <span>Notifications</span>
@@ -212,7 +212,7 @@ const CreateRecipe = () => {
                 </div>
             </div>
 
-            {/* --- NAVBAR (DÜZELTİLDİ: Logo Ortada) --- */}
+
             <nav className="top-navbar">
                 <div className="nav-left">
                     <button className="icon-btn" onClick={toggleSidebar}>☰</button>
@@ -227,13 +227,13 @@ const CreateRecipe = () => {
                 </div>
             </nav>
 
-            {/* --- ANA İÇERİK ALANI --- */}
+
             <div className="main-content-area" style={{paddingTop: '100px'}}>
 
-                {/* --- CREATE RECIPE KARTI (SARI RENK KALDIRILDI ✅) --- */}
+
                 <div className="create-recipe-card">
 
-                    {/* Header */}
+
                     <div className="cr-header">
                         <button className="back-btn-modern" onClick={() => navigate(-1)}>
                             <span>←</span> Back
@@ -241,7 +241,7 @@ const CreateRecipe = () => {
                         <h2>Create New Recipe</h2>
                     </div>
 
-                    {/* 1. Başlık */}
+
                     <label className="cr-label">Recipe Title</label>
                     <input
                         type="text"
@@ -251,7 +251,7 @@ const CreateRecipe = () => {
                         onChange={(e) => setTitle(e.target.value)}
                     />
 
-                    {/* 2. Kategori */}
+
                     <label className="cr-label">Category</label>
                     <div style={{ position: 'relative' }}>
                         <input
@@ -271,7 +271,7 @@ const CreateRecipe = () => {
                             </div>
                         )}
                     </div>
-                    {/* Seçili Kategoriler */}
+
                     <div style={{ display: 'flex', gap: '10px', marginTop: '10px', flexWrap: 'wrap' }}>
                         {selectedCategories.map(cat => (
                             <span key={cat.id} className="category-tag-pill">
@@ -281,7 +281,7 @@ const CreateRecipe = () => {
                         ))}
                     </div>
 
-                    {/* 3. Açıklama */}
+
                     <label className="cr-label">Description (Steps)</label>
                     <textarea
                         className="modern-textarea"
@@ -291,7 +291,7 @@ const CreateRecipe = () => {
                         onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
 
-                    {/* 4. Malzeme Ekleme */}
+
                     <label className="cr-label">Add Ingredients</label>
                     <div style={{ position: 'relative' }}>
                         <input
@@ -312,7 +312,7 @@ const CreateRecipe = () => {
                         )}
                     </div>
 
-                    {/* Eklenen Malzemeler Listesi */}
+
                     <div style={{ marginTop: '20px' }}>
                         {selectedIngredients.map((item, index) => (
                             <div key={index} className="ing-item-card">
@@ -345,7 +345,7 @@ const CreateRecipe = () => {
                         ))}
                     </div>
 
-                    {/* FOOTER */}
+
                     <div className="form-footer">
                         <div className="total-cal-display">
                             <span className="total-cal-label">Total Calories</span>

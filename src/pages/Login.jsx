@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../styles/Auth.css';
 
-// API URL'ini dinamik olarak tanımlıyoruz
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
+const API_BASE_URL = "https://macrochef-backend.onrender.com";
 
 const Login = () => {
     const navigate = useNavigate();
 
-    // State'ler
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -35,16 +35,14 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
 
-                // --- İŞTE BURAYI KONTROL EDİYORUZ ---
+
                 console.log("BACKEND'DEN GELEN VERİ (BUNU KONTROL ET):", data);
 
-                // Token'ın hangi isimle geldiğine bakıp ona göre kaydediyoruz
-                // Genelde 'accessToken' veya 'token' olur.
+
                 const userToken = data.token || data.accessToken || data.jwt;
 
                 if (userToken) {
-                    // Eğer token 'Bearer ' kelimesiyle başlıyorsa, temizleyip kaydedelim
-                    // Çünkü CreateRecipe sayfasında biz kendimiz 'Bearer ' ekliyoruz.
+
                     const cleanToken = userToken.startsWith('Bearer ')
                         ? userToken.replace('Bearer ', '')
                         : userToken;
