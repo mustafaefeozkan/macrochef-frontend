@@ -92,7 +92,7 @@ const CreateRecipe = () => {
             const token = localStorage.getItem('token');
             if (!token) return;
 
-            const res = await fetch(`${API_BASE_URL}/ingredients/search?name=${val}`, {
+            const res = await fetch(`${API_BASE_URL}/api/ingredients/search?name=${val}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
