@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+    /* Renkler */
+    --macro-green: #22c55e;
+    --chef-orange: #f97316;
+    --bg-cream: #F8FAFC;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --border-light: #e2e8f0;
+
+    /* Ayarlar */
+    --navbar-height: 80px;
+    --card-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+
+    /* Font Ayarları (Index.css'ten aldık) */
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+
+body, html {
+    margin: 0; padding: 0;
+    width: 100%; overflow-x: hidden;
+    min-height: 100vh;
+    background-color: var(--bg-cream);
+    color: var(--text-dark);
+}
+
+#root {
+    width: 100%; min-height: 100vh;
+    display: flex; flex-direction: column;
+}
+
+/* Ortak Modern Input Stilleri */
+.modern-input, .modern-select, .modern-textarea {
+    width: 100%; padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #fdfdfd;
+    color: #333;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+.modern-input:focus, .modern-textarea:focus {
+    border-color: var(--chef-orange);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+    outline: none;
+}

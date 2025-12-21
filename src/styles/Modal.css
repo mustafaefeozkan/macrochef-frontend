@@ -1,0 +1,90 @@
+/* --- MODAL OVERLAY --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease-in-out;
+    padding: 20px; /* Mobilde kenarlara yapışmasın */
+}
+
+/* --- MODAL KUTUSU (DÜZELTİLDİ) --- */
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 800px;
+    /* 🌟 YENİ: Yüksekliği sınırla ve taşarsa scroll ekle (ama çirkin scrollbar'ı gizle) 🌟 */
+    max-height: 85vh; /* Ekran yüksekliğinin %85'ini geçmesin */
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow-y: auto; /* Sadece içerik taşarsa kaydır */
+    position: relative;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* 🌟 Çirkin Scrollbar'ı Gizle (Modern ve İnce Yap) 🌟 */
+    scrollbar-width: thin; /* Firefox için ince */
+    scrollbar-color: #cbd5e1 transparent; /* Firefox renkleri */
+}
+
+/* Webkit (Chrome, Safari, Edge) için Modern Scrollbar */
+.modal-content::-webkit-scrollbar {
+    width: 8px; /* Çok daha ince */
+}
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1; /* Açık gri renk */
+    border-radius: 10px; /* Yuvarlak köşeler */
+    border: 2px solid white; /* Etrafına beyaz çerçeve (daha temiz durur) */
+}
+
+/* Kapatma Butonu (X) */
+.close-modal-btn {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex; align-items: center; justifyContent: center;
+    transition: all 0.2s;
+    z-index: 10;
+}
+.close-modal-btn:hover { background: #ef4444; transform: rotate(90deg); }
+
+/* --- İÇERİK DÜZENİ --- */
+.modal-image-header {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    position: relative; /* 'sticky' yerine 'relative' yaptık */
+    /* top: 0; ve z-index: 5; kodlarını sildik */
+    border-top-left-radius: 20px; /* Köşeleri yuvarlayalım ki şık dursun */
+    border-top-right-radius: 20px;
+}
+
+.modal-body { padding: 30px; }
+
+/* (Geri kalan stiller aynı) */
+.modal-title-row { display: flex; justifyContent: space-between; alignItems: flex-start; margin-bottom: 20px; }
+.modal-title-row h2 { font-size: 2rem; color: var(--text-dark); margin: 0; line-height: 1.2; }
+.modal-category-tag { background-color: #fff7ed; color: var(--chef-orange); padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+.nutrition-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px; background: #f8fafc; padding: 20px; border-radius: 16px; }
+.nutrition-item { text-align: center; display: flex; flexDirection: column; }
+.nutrition-value { font-size: 1.2rem; font-weight: 800; color: var(--text-dark); }
+.nutrition-label { font-size: 0.85rem; color: #64748b; margin-top: 5px; }
+.modal-section-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; color: #334155; border-left: 4px solid var(--chef-orange); padding-left: 10px; }
+.description-text { line-height: 1.8; color: #475569; font-size: 1.05rem; white-space: pre-line; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@media (max-width: 600px) { .nutrition-grid { grid-template-columns: repeat(2, 1fr); } .modal-image-header { height: 200px; } }

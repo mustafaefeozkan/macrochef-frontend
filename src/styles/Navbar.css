@@ -1,0 +1,132 @@
+.top-navbar {
+    position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
+    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-light); display: flex;
+    justify-content: space-between; align-items: center; padding: 0 40px; z-index: 1000;
+}
+
+.nav-left, .nav-right { display: flex; align-items: center; gap: 15px; }
+
+.brand-logo-large { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.8rem; cursor: pointer; }
+.macro { color: var(--macro-green); }
+.chef { color: var(--chef-orange); }
+
+.profile-circle {
+    width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%;
+    overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.profile-circle:hover { border-color: var(--chef-orange); }
+
+.icon-btn {
+    background: white; border: 1px solid var(--border-light); width: 40px; height: 40px;
+    border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center; color: var(--text-gray);
+}
+.icon-btn:hover { border-color: var(--chef-orange); color: var(--chef-orange); }
+/* --- SIDEBAR MENÜLER (SOL & SAĞ) --- */
+.sidebar-menu, .notification-sidebar {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 300px;
+    background: white;
+    z-index: 2000;
+    padding: 20px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 40px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sol Menü Pozisyonu */
+.sidebar-menu { left: 0; transform: translateX(-100%); }
+.sidebar-menu.open { transform: translateX(0); }
+
+/* Sağ Menü Pozisyonu */
+.notification-sidebar { right: 0; transform: translateX(100%); }
+.notification-sidebar.open { transform: translateX(0); }
+
+/* Sidebar Başlık Alanı */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 15px;
+}
+
+/* Kapatma Butonu (X) */
+.close-btn {
+    background: #f1f5f9;
+    border: none;
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+    color: var(--text-gray);
+}
+.close-btn:hover { background: #fee2e2; color: #ef4444; }
+
+/* Linkler ve Listeler */
+.sidebar-links { list-style: none; padding: 0; margin: 0; }
+.sidebar-links li {
+    padding: 14px 20px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 15px;
+    color: var(--text-gray);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.sidebar-links li:hover {
+    background: #fff7ed;
+    color: var(--chef-orange);
+    transform: translateX(5px);
+}
+.sidebar-links .icon { font-size: 1.2rem; }
+
+
+.logout-item { margin-top: auto; border-top: 1px solid var(--border-light); border-radius: 0 !important; }
+.logout-item:hover { background: #fee2e2 !important; color: #ef4444 !important; }
+
+
+.notif-content { flex: 1; overflow-y: auto; }
+
+.empty-notif {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 60%; color: var(--text-gray); text-align: center;
+}
+
+.notif-item {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex; gap: 12px; align-items: start;
+    font-size: 0.9rem;
+}
+.notif-icon { font-size: 1.2rem; }
+.notif-time { display: block; font-size: 0.75rem; color: #94a3b8; margin-top: 5px; }
+.clear-btn {
+    width: 100%; padding: 12px; margin-top: 20px;
+    background: #f1f5f9; border: none; border-radius: 10px;
+    color: var(--text-gray); font-weight: 600; cursor: pointer;
+}
+.clear-btn:hover { background: #e2e8f0; }
+
+
+.overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+    z-index: 1500;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

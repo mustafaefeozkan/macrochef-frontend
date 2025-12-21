@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './App.css';
+import '../styles/Auth.css';
 
 // API URL'ini dinamik olarak tanımlıyoruz
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
@@ -22,7 +22,6 @@ const Login = () => {
         console.log("Login işlemi başlatıldı...");
 
         try {
-            // URL kısmını API_BASE_URL kullanacak şekilde güncelledik
             const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -31,13 +30,33 @@ const Login = () => {
                 body: JSON.stringify({ email, password }),
             });
 
-            console.log("Sunucu cevabı:", response.status);
+            console.log("Sunucu yanıt durumu:", response.status);
 
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.token);
-                console.log("Giriş başarılı, Dashboard'a yönlendiriliyor...");
-                navigate('/');
+
+                // --- İŞTE BURAYI KONTROL EDİYORUZ ---
+                console.log("BACKEND'DEN GELEN VERİ (BUNU KONTROL ET):", data);
+
+                // Token'ın hangi isimle geldiğine bakıp ona göre kaydediyoruz
+                // Genelde 'accessToken' veya 'token' olur.
+                const userToken = data.token || data.accessToken || data.jwt;
+
+                if (userToken) {
+                    // Eğer token 'Bearer ' kelimesiyle başlıyorsa, temizleyip kaydedelim
+                    // Çünkü CreateRecipe sayfasında biz kendimiz 'Bearer ' ekliyoruz.
+                    const cleanToken = userToken.startsWith('Bearer ')
+                        ? userToken.replace('Bearer ', '')
+                        : userToken;
+
+                    localStorage.setItem('token', cleanToken);
+                    console.log("Token başarıyla kaydedildi:", cleanToken);
+                    navigate('/');
+                } else {
+                    console.error("HATA: Backend yanıtında token bulunamadı!", data);
+                    setError('Login successful but no token received from server.');
+                }
+
             } else {
                 setError('Login failed! Check your email or password.');
             }

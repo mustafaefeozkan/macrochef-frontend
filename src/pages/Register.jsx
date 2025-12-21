@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './App.css';
+import '../styles/Auth.css';
 
-// API URL'ini dinamik olarak tanımlıyoruz
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 const Register = () => {
@@ -22,7 +21,7 @@ const Register = () => {
         e.preventDefault();
         setError('');
         try {
-            // fetch adresini API_BASE_URL kullanacak şekilde güncelledik
+
             const response = await fetch(`${API_BASE_URL}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

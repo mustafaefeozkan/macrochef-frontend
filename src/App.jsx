@@ -1,14 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // Sayfalar
-import Login from './Login';
-import Register from './Register';
-import Dashboard from './Dashboard';
-import Profile from './Profile';
-import CreateRecipe from './CreateRecipe';
-import Favorites from './Favorites';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Profile from './pages/Profile.jsx';
+import CreateRecipe from './pages/CreateRecipe.jsx';
+import Favorites from './pages/Favorites.jsx';
 
-import './App.css';
 
 // KORUMA KALKANI
 const ProtectedRoute = ({ children }) => {
@@ -29,6 +28,12 @@ function App() {
 
                 {/* --- KORUMALI SAYFALAR --- */}
                 <Route path="/" element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/dashboard" element={
                     <ProtectedRoute>
                         <Dashboard />
                     </ProtectedRoute>
